@@ -60,3 +60,47 @@ func TestFindEntriesBeforeLast(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+// the expected numbers are one after another in the sorted array
+// this is the example from the exercise
+func TestFindEntries3Easy(t *testing.T) {
+	got := FindEntries3([]int{
+		1721,
+		979,
+		366,
+		299,
+		675,
+		1456,
+	})
+	want := []int{
+		366,
+		675,
+		979,
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+// the expected numbers are NOT one after another in the sorted array
+func TestFindEntries3Difficult(t *testing.T) {
+	got := FindEntries3([]int{
+		1721,
+		979,
+		960,
+		366,
+		299,
+		675,
+		1456,
+	})
+	want := []int{
+		366,
+		675,
+		979,
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
