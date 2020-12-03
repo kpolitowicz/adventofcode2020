@@ -23,6 +23,13 @@ func (p Password) isValid() bool {
 	return count >= p.min && count <= p.max
 }
 
+func (p Password) isReallyValid() bool {
+	firstPresent := p.password[p.min-1] == p.letter
+	lastPresent := p.password[p.max-1] == p.letter
+
+	return firstPresent != lastPresent
+}
+
 func ParseInput(input string) (res []Password) {
 	for _, line := range strings.Split(input, "\n") {
 		res = append(res, parseLineIntoPasswordSpec(line))

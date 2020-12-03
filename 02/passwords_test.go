@@ -48,3 +48,27 @@ func TestInvalidPassword(t *testing.T) {
 		t.Errorf("expected to be invalid: %v", p)
 	}
 }
+
+func TestReallyValidPassword(t *testing.T) {
+	p := Password{"abcde", 'a', 1, 3}
+
+	if !p.isReallyValid() {
+		t.Errorf("expected to be valid: %v", p)
+	}
+}
+
+func TestReallyInvalidPassword1(t *testing.T) {
+	p := Password{"cdefg", 'b', 1, 3}
+
+	if p.isReallyValid() {
+		t.Errorf("expected to be invalid: %v", p)
+	}
+}
+
+func TestReallyInvalidPassword2(t *testing.T) {
+	p := Password{"ccccccccc", 'c', 2, 9}
+
+	if p.isReallyValid() {
+		t.Errorf("expected to be invalid: %v", p)
+	}
+}
