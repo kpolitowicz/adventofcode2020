@@ -31,10 +31,10 @@ func ParseInput(input string) (res []Password) {
 	return
 }
 
-func CountValidPasswords(passwords []Password) int {
+func CountValidPasswords(passwords []Password, validCheck func(Password) bool) int {
 	count := 0
 	for _, password := range passwords {
-		if password.isValid() {
+		if validCheck(password) {
 			count++
 		}
 	}

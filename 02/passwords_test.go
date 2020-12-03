@@ -26,7 +26,7 @@ func TestCountValidPassword(t *testing.T) {
 		{"abcde", 'a', 1, 3},
 		{"cdefg", 'b', 1, 3},
 		{"ccccccccc", 'c', 2, 9},
-	})
+	}, Password.isValid)
 
 	if got != 2 {
 		t.Errorf("expected to be 2 valid passwords")
