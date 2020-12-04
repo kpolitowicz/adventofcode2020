@@ -14,7 +14,7 @@ func (m SlopeMap) CountTrees(dx, dy int) (count int) {
 	mapWidth := len(m[0])
 	mapHeight := len(m)
 
-	for y = 1; y <= mapHeight-1; y += dy {
+	for y = dy; y <= mapHeight-1; y += dy {
 		x = (x + dx) % mapWidth
 
 		if m[y][x] == '#' {

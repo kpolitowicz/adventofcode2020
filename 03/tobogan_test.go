@@ -57,3 +57,47 @@ func TestCountTrees3and1(t *testing.T) {
 		t.Errorf("expected to be 7 trees, but was %v", got)
 	}
 }
+
+func TestCountTrees1and1(t *testing.T) {
+	slopeMap := SlopeMap{
+		"..##.......",
+		"#...#...#..",
+		".#....#..#.",
+		"..#.#...#.#",
+		".#...##..#.",
+		"..#.##.....",
+		".#.#.#....#",
+		".#........#",
+		"#.##...#...",
+		"#...##....#",
+		".#..#...#.#",
+	}
+	got := slopeMap.CountTrees(1, 1)
+	want := 2
+
+	if got != want {
+		t.Errorf("expected to be %v trees, but was %v", want, got)
+	}
+}
+
+func TestCountTrees1and2(t *testing.T) {
+	slopeMap := SlopeMap{
+		"..##.......",
+		"#...#...#..",
+		".#....#..#.",
+		"..#.#...#.#",
+		".#...##..#.",
+		"..#.##.....",
+		".#.#.#....#",
+		".#........#",
+		"#.##...#...",
+		"#...##....#",
+		".#..#...#.#",
+	}
+	got := slopeMap.CountTrees(1, 2)
+	want := 2
+
+	if got != want {
+		t.Errorf("expected to be %v trees, but was %v", want, got)
+	}
+}
