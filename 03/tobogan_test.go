@@ -37,7 +37,7 @@ func TestParseInput(t *testing.T) {
 	}
 }
 
-func TestCountTrees(t *testing.T) {
+func TestCountTrees3and1(t *testing.T) {
 	slopeMap := SlopeMap{
 		"..##.......",
 		"#...#...#..",
@@ -51,7 +51,7 @@ func TestCountTrees(t *testing.T) {
 		"#...##....#",
 		".#..#...#.#",
 	}
-	got := slopeMap.CountTrees()
+	got := slopeMap.CountTrees(3, 1)
 
 	if got != 7 {
 		t.Errorf("expected to be 7 trees, but was %v", got)

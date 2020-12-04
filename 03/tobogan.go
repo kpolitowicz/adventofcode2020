@@ -8,12 +8,14 @@ import (
 
 type SlopeMap []string
 
-func (m SlopeMap) CountTrees() (count int) {
+func (m SlopeMap) CountTrees(dx, dy int) (count int) {
 	var x, y int
-	mapWidth := len(m[0])
 
-	for y = 1; y <= len(m)-1; y++ {
-		x = (x + 3) % mapWidth
+	mapWidth := len(m[0])
+	mapHeight := len(m)
+
+	for y = 1; y <= mapHeight-1; y += dy {
+		x = (x + dx) % mapWidth
 
 		if m[y][x] == '#' {
 			count++
