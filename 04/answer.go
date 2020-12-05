@@ -16,13 +16,7 @@ func main() {
 	case "1":
 		validityCheck = Passport.IsValid
 	case "2":
-		// product :=
-		// 	slope.CountTrees(1, 1) *
-		// 		slope.CountTrees(3, 1) *
-		// 		slope.CountTrees(5, 1) *
-		// 		slope.CountTrees(7, 1) *
-		// 		slope.CountTrees(1, 2)
-		// fmt.Println(product)
+		validityCheck = Passport.IsActuallyValid
 	}
 
 	fmt.Println(CountValid(passports, validityCheck))
