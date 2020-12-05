@@ -45,7 +45,7 @@ func ParseInput(input string) (res []Passport) {
 	return
 }
 
-func CountValid(passports []Passport) (count int) {
+func CountValid(passports []Passport, check func(Passport) bool) (count int) {
 	for _, p := range passports {
 		if p.IsValid() {
 			count++

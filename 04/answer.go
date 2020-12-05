@@ -11,9 +11,10 @@ func main() {
 	dat, _ := ioutil.ReadFile("input.txt")
 	passports := ParseInput(strings.Trim(string(dat), "\n"))
 
+	var validityCheck func(Passport) bool
 	switch os.Args[1] {
 	case "1":
-		fmt.Println(CountValid(passports))
+		validityCheck = Passport.IsValid
 	case "2":
 		// product :=
 		// 	slope.CountTrees(1, 1) *
@@ -23,4 +24,6 @@ func main() {
 		// 		slope.CountTrees(1, 2)
 		// fmt.Println(product)
 	}
+
+	fmt.Println(CountValid(passports, validityCheck))
 }

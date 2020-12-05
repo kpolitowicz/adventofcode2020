@@ -38,7 +38,7 @@ func TestCountValid(t *testing.T) {
 		{PassportFields{"iyr": true, "ecl": true, "cid": true, "eyr": true, "pid": true, "hcl": true, "byr": true}},
 		{PassportFields{"hcl": true, "iyr": true, "eyr": true, "ecl": true, "pid": true, "byr": true, "hgt": true}},
 		{PassportFields{"hcl": true, "eyr": true, "pid": true, "iyr": true, "ecl": true, "hgt": true}},
-	})
+	}, Passport.IsValid)
 	want := 2
 
 	if !reflect.DeepEqual(got, want) {
