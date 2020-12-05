@@ -15,6 +15,6 @@ func main() {
 	case "1":
 		fmt.Println(FindMaxSeatId(passes))
 	case "2":
-		// validityCheck = Passport.IsActuallyValid
+		fmt.Println(FindMissingNum(AllSeatIds(passes)))
 	}
 }

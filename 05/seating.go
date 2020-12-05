@@ -2,6 +2,7 @@ package main
 
 import (
 	// "fmt"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -56,4 +57,24 @@ func FindMaxSeatId(passes []BoardingPass) (res int) {
 	}
 
 	return
+}
+
+func AllSeatIds(passes []BoardingPass) (res []int) {
+	for _, p := range passes {
+		res = append(res, p.GetSeatId())
+	}
+	sort.Ints(res)
+
+	return
+}
+
+func FindMissingNum(sortedSeatIds []int) int {
+	firstId := sortedSeatIds[0]
+	for i, p := range sortedSeatIds {
+		if p-i > firstId {
+			return p - 1
+		}
+	}
+
+	return 0
 }
