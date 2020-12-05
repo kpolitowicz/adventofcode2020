@@ -21,10 +21,10 @@ hcl:#cfa07d eyr:2025 pid:166559648
 iyr:2011 ecl:brn hgt:59in`)
 
 	want := []Passport{
-		{PassportFields{"ecl": true, "pid": true, "eyr": true, "hcl": true, "byr": true, "iyr": true, "cid": true, "hgt": true}},
-		{PassportFields{"iyr": true, "ecl": true, "cid": true, "eyr": true, "pid": true, "hcl": true, "byr": true}},
-		{PassportFields{"hcl": true, "iyr": true, "eyr": true, "ecl": true, "pid": true, "byr": true, "hgt": true}},
-		{PassportFields{"hcl": true, "eyr": true, "pid": true, "iyr": true, "ecl": true, "hgt": true}},
+		{PassportFields{"ecl": "gry", "pid": "860033327", "eyr": "2020", "hcl": "#fffffd", "byr": "1937", "iyr": "2017", "cid": "147", "hgt": "183cm"}},
+		{PassportFields{"iyr": "2013", "ecl": "amb", "cid": "350", "eyr": "2023", "pid": "028048884", "hcl": "#cfa07d", "byr": "1929"}},
+		{PassportFields{"hcl": "#ae17e1", "iyr": "2013", "eyr": "2024", "ecl": "brn", "pid": "760753108", "byr": "1931", "hgt": "179cm"}},
+		{PassportFields{"hcl": "#cfa07d", "eyr": "2025", "pid": "166559648", "iyr": "2011", "ecl": "brn", "hgt": "59in"}},
 	}
 
 	if !reflect.DeepEqual(got, want) {
@@ -34,10 +34,10 @@ iyr:2011 ecl:brn hgt:59in`)
 
 func TestCountValid(t *testing.T) {
 	got := CountValid([]Passport{
-		{PassportFields{"ecl": true, "pid": true, "eyr": true, "hcl": true, "byr": true, "iyr": true, "cid": true, "hgt": true}},
-		{PassportFields{"iyr": true, "ecl": true, "cid": true, "eyr": true, "pid": true, "hcl": true, "byr": true}},
-		{PassportFields{"hcl": true, "iyr": true, "eyr": true, "ecl": true, "pid": true, "byr": true, "hgt": true}},
-		{PassportFields{"hcl": true, "eyr": true, "pid": true, "iyr": true, "ecl": true, "hgt": true}},
+		{PassportFields{"ecl": "gry", "pid": "860033327", "eyr": "2020", "hcl": "#fffffd", "byr": "1937", "iyr": "2017", "cid": "147", "hgt": "183cm"}},
+		{PassportFields{"iyr": "2013", "ecl": "amb", "cid": "350", "eyr": "2023", "pid": "028048884", "hcl": "#cfa07d", "byr": "1929"}},
+		{PassportFields{"hcl": "#ae17e1", "iyr": "2013", "eyr": "2024", "ecl": "brn", "pid": "760753108", "byr": "1931", "hgt": "179cm"}},
+		{PassportFields{"hcl": "#cfa07d", "eyr": "2025", "pid": "166559648", "iyr": "2011", "ecl": "brn", "hgt": "59in"}},
 	}, Passport.IsValid)
 	want := 2
 
@@ -48,7 +48,7 @@ func TestCountValid(t *testing.T) {
 
 func TestIsValid(t *testing.T) {
 	passport := Passport{
-		PassportFields{"ecl": true, "pid": true, "eyr": true, "hcl": true, "byr": true, "iyr": true, "cid": true, "hgt": true},
+		PassportFields{"ecl": "gry", "pid": "860033327", "eyr": "2020", "hcl": "#fffffd", "byr": "1937", "iyr": "2017", "cid": "147", "hgt": "183cm"},
 	}
 
 	if !passport.IsValid() {
@@ -58,7 +58,7 @@ func TestIsValid(t *testing.T) {
 
 func TestIsValidWithoutCid(t *testing.T) {
 	passport := Passport{
-		PassportFields{"hcl": true, "iyr": true, "eyr": true, "ecl": true, "pid": true, "byr": true, "hgt": true},
+		PassportFields{"hcl": "#ae17e1", "iyr": "2013", "eyr": "2024", "ecl": "brn", "pid": "760753108", "byr": "1931", "hgt": "179cm"},
 	}
 
 	if !passport.IsValid() {
@@ -68,7 +68,7 @@ func TestIsValidWithoutCid(t *testing.T) {
 
 func TestIsInvalidNoHgt(t *testing.T) {
 	passport := Passport{
-		PassportFields{"iyr": true, "ecl": true, "cid": true, "eyr": true, "pid": true, "hcl": true, "byr": true},
+		PassportFields{"iyr": "2013", "ecl": "amb", "cid": "350", "eyr": "2023", "pid": "028048884", "hcl": "#cfa07d", "byr": "1929"},
 	}
 
 	if passport.IsValid() {
@@ -78,7 +78,7 @@ func TestIsInvalidNoHgt(t *testing.T) {
 
 func TestIsInvalidNoByrCid(t *testing.T) {
 	passport := Passport{
-		PassportFields{"hcl": true, "eyr": true, "pid": true, "iyr": true, "ecl": true, "hgt": true},
+		PassportFields{"hcl": "#cfa07d", "eyr": "2025", "pid": "166559648", "iyr": "2011", "ecl": "brn", "hgt": "59in"},
 	}
 
 	if passport.IsValid() {

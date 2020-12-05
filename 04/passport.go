@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-type PassportFields map[string]bool
+type PassportFields map[string]string
 type Passport struct {
 	Fields PassportFields
 }
@@ -57,7 +57,7 @@ func CountValid(passports []Passport, check func(Passport) bool) (count int) {
 
 func parseLineIntoFields(line string, passportFields *PassportFields) {
 	for _, fieldSpec := range strings.Split(line, " ") {
-		field := fieldSpec[:3]
-		(*passportFields)[field] = true
+		parsedKeyVal := strings.Split(fieldSpec, ":")
+		(*passportFields)[parsedKeyVal[0]] = parsedKeyVal[1]
 	}
 }
