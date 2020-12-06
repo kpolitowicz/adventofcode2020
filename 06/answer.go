@@ -15,6 +15,6 @@ func main() {
 	case "1":
 		fmt.Println(SumAllQuestions(groups, CustomGroup.CountAnyoneYeses))
 	case "2":
-		// fmt.Println(FindMissingNum(AllSeatIds(passes)))
+		fmt.Println(SumAllQuestions(groups, CustomGroup.CountEveryoneYeses))
 	}
 }
