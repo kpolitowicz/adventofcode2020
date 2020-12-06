@@ -13,7 +13,7 @@ func main() {
 
 	switch os.Args[1] {
 	case "1":
-		fmt.Println(SumAllQuestions(groups))
+		fmt.Println(SumAllQuestions(groups, CustomGroup.CountAnyoneYeses))
 	case "2":
 		// fmt.Println(FindMissingNum(AllSeatIds(passes)))
 	}

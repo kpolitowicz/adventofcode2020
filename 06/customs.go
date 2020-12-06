@@ -21,9 +21,9 @@ func ParseInput(input string) (res []CustomGroup) {
 	return append(res, currentGroup)
 }
 
-func SumAllQuestions(groups []CustomGroup) (count int) {
+func SumAllQuestions(groups []CustomGroup, countFn func(CustomGroup) int) (count int) {
 	for _, group := range groups {
-		count += group.CountAnyoneYeses()
+		count += countFn(group)
 	}
 
 	return

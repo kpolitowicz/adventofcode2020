@@ -43,7 +43,7 @@ func TestSumAllQuestions(t *testing.T) {
 		{RawInputs: []string{"ab", "ac"}},
 		{RawInputs: []string{"a", "a", "a", "a"}},
 		{RawInputs: []string{"b"}},
-	})
+	}, CustomGroup.CountAnyoneYeses)
 	want := 11
 
 	if !reflect.DeepEqual(got, want) {
