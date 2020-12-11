@@ -21,7 +21,7 @@ func ParseInput(input string) *BagMap {
 			}
 		} else {
 			for _, containedBag := range containedBags {
-				bm.AddEdge(container, containedBag.Label)
+				bm.AddEdge(container, containedBag.Label, containedBag.Count)
 			}
 		}
 	}

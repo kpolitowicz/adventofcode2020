@@ -15,7 +15,7 @@ func main() {
 	switch os.Args[1] {
 	case "1":
 		visited := make(bags.VisitedMap)
-		bm.Search(bm.GetNode("shiny gold"), &visited)
+		bm.SearchContainers(bm.GetNode("shiny gold"), &visited)
 		fmt.Println(len(visited) - 1)
 	case "2":
 		// fmt.Println(customs.SumAllQuestions(groups, customs.CustomGroup.CountEveryoneYeses))

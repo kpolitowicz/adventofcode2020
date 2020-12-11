@@ -8,42 +8,70 @@ import (
 
 func TestAddEdgeOneEdge(t *testing.T) {
 	gotBm := NewBagMap()
-	gotBm.AddEdge("container", "contained")
+	gotBm.AddEdge("container", "contained", 1)
 
 	wantBm := NewBagMap()
-	wantBm.SetNode("container", &Node{Label: "container"})
-	wantBm.SetNode("contained", &Node{Label: "contained", CanBeIn: [](*Node){wantBm.GetNode("container")}})
+	containerNode := &Node{Label: "container"}
+	containedNode := &Node{Label: "contained", CanBeIn: [](*Node){containerNode}}
+	wantBm.SetNode("container", containerNode)
+	wantBm.SetNode("contained", containedNode)
+	containerNode.Contains = append(containerNode.Contains, Contains{
+		Node:  containedNode,
+		Count: 1,
+	})
 
 	assertBmEqual(t, gotBm, wantBm)
 }
 
 func TestAddEdgeTwoContainedSameContainer(t *testing.T) {
 	gotBm := NewBagMap()
-	gotBm.AddEdge("container", "contained1")
-	gotBm.AddEdge("container", "contained2")
+	gotBm.AddEdge("container", "contained1", 2)
+	gotBm.AddEdge("container", "contained2", 3)
 
 	wantBm := NewBagMap()
-	wantBm.SetNode("container", &Node{Label: "container"})
-	wantBm.SetNode("contained1", &Node{Label: "contained1", CanBeIn: [](*Node){wantBm.GetNode("container")}})
-	wantBm.SetNode("contained2", &Node{Label: "contained2", CanBeIn: [](*Node){wantBm.GetNode("container")}})
+	containerNode := &Node{Label: "container"}
+	containedNode1 := &Node{Label: "contained1", CanBeIn: [](*Node){containerNode}}
+	containedNode2 := &Node{Label: "contained2", CanBeIn: [](*Node){containerNode}}
+	wantBm.SetNode("container", containerNode)
+	wantBm.SetNode("contained1", containedNode1)
+	wantBm.SetNode("contained2", containedNode2)
+	containerNode.Contains = append(containerNode.Contains, Contains{
+		Node:  containedNode1,
+		Count: 2,
+	})
+	containerNode.Contains = append(containerNode.Contains, Contains{
+		Node:  containedNode2,
+		Count: 3,
+	})
 
 	assertBmEqual(t, gotBm, wantBm)
 }
 
 func TestAddEdgeTwoContainersSameContained(t *testing.T) {
 	gotBm := NewBagMap()
-	gotBm.AddEdge("container1", "contained")
-	gotBm.AddEdge("container2", "contained")
+	gotBm.AddEdge("container1", "contained", 4)
+	gotBm.AddEdge("container2", "contained", 5)
 
 	wantBm := NewBagMap()
-	wantBm.SetNode("container1", &Node{Label: "container1"})
-	wantBm.SetNode("container2", &Node{Label: "container2"})
-	wantBm.SetNode("contained", &Node{
+	containerNode1 := &Node{Label: "container1"}
+	containerNode2 := &Node{Label: "container2"}
+	containedNode := &Node{
 		Label: "contained",
 		CanBeIn: [](*Node){
-			wantBm.GetNode("container1"),
-			wantBm.GetNode("container2"),
+			containerNode1,
+			containerNode2,
 		},
+	}
+	wantBm.SetNode("container1", containerNode1)
+	wantBm.SetNode("container2", containerNode2)
+	wantBm.SetNode("contained", containedNode)
+	containerNode1.Contains = append(containerNode1.Contains, Contains{
+		Node:  containedNode,
+		Count: 4,
+	})
+	containerNode2.Contains = append(containerNode2.Contains, Contains{
+		Node:  containedNode,
+		Count: 5,
 	})
 
 	assertBmEqual(t, gotBm, wantBm)
@@ -51,46 +79,57 @@ func TestAddEdgeTwoContainersSameContained(t *testing.T) {
 
 func TestAddEdgeContainedInContainerInAnotherContainer(t *testing.T) {
 	gotBm := NewBagMap()
-	gotBm.AddEdge("container", "containedAndContainer")
-	gotBm.AddEdge("containedAndContainer", "contained")
+	gotBm.AddEdge("container", "containedAndContainer", 6)
+	gotBm.AddEdge("containedAndContainer", "contained", 7)
 
 	wantBm := NewBagMap()
-	wantBm.SetNode("container", &Node{Label: "container"})
-	wantBm.SetNode("containedAndContainer", &Node{
+	containerNode := &Node{Label: "container"}
+	containedAndContainerNode := &Node{
 		Label:   "containedAndContainer",
-		CanBeIn: [](*Node){wantBm.GetNode("container")},
-	})
-	wantBm.SetNode("contained", &Node{
+		CanBeIn: [](*Node){containerNode},
+	}
+	containedNode := &Node{
 		Label:   "contained",
-		CanBeIn: [](*Node){wantBm.GetNode("containedAndContainer")},
+		CanBeIn: [](*Node){containedAndContainerNode},
+	}
+	wantBm.SetNode("container", containerNode)
+	wantBm.SetNode("containedAndContainer", containedAndContainerNode)
+	wantBm.SetNode("contained", containedNode)
+	containerNode.Contains = append(containerNode.Contains, Contains{
+		Node:  containedAndContainerNode,
+		Count: 6,
+	})
+	containedAndContainerNode.Contains = append(containedAndContainerNode.Contains, Contains{
+		Node:  containedNode,
+		Count: 7,
 	})
 
 	assertBmEqual(t, gotBm, wantBm)
 }
 
-func TestSearchMarksStart(t *testing.T) {
+func TestSearchContainersMarksStart(t *testing.T) {
 	bm := NewBagMap()
-	bm.AddEdge("container", "contained")
+	bm.AddEdge("container", "contained", 1)
 	visited := make(VisitedMap)
 
-	bm.Search(bm.GetNode("container"), &visited)
+	bm.SearchContainers(bm.GetNode("container"), &visited)
 
 	assertEqual(t, visited["container"], true)
 	assertEqual(t, visited["contained"], false)
 }
 
-func TestSearchVisitsConnectedNodes(t *testing.T) {
+func TestSearchContainersVisitsConnectedNodes(t *testing.T) {
 	bm := NewBagMap()
-	bm.AddEdge("container", "contained")
+	bm.AddEdge("container", "contained", 1)
 	visited := make(VisitedMap)
 
-	bm.Search(bm.GetNode("contained"), &visited)
+	bm.SearchContainers(bm.GetNode("contained"), &visited)
 
 	assertEqual(t, visited["container"], true)
 	assertEqual(t, visited["contained"], true)
 }
 
-func TestSearchWorksOnExample(t *testing.T) {
+func TestSearchContainersWorksOnExample(t *testing.T) {
 	bm := ParseInput(`light red bags contain 1 bright white bag, 2 muted yellow bags.
 dark orange bags contain 3 bright white bags, 4 muted yellow bags.
 bright white bags contain 1 shiny gold bag.
@@ -102,9 +141,20 @@ faded blue bags contain no other bags.
 dotted black bags contain no other bags.`)
 	visited := make(VisitedMap)
 
-	bm.Search(bm.GetNode("shiny gold"), &visited)
+	bm.SearchContainers(bm.GetNode("shiny gold"), &visited)
 
 	assertEqual(t, len(visited), 5)
+}
+
+func TestCountBagsVisitsConnectedNodes(t *testing.T) {
+	bm := NewBagMap()
+	bm.AddEdge("container", "contained", 10)
+	visited := make(VisitedMap)
+	count := 0
+
+	bm.CountBags(bm.GetNode("container"), &visited, &count)
+
+	assertEqual(t, count, 10)
 }
 
 func assertBmEqual(t *testing.T, gotBm, wantBm *BagMap) {

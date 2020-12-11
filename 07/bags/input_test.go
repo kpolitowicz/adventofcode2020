@@ -20,10 +20,13 @@ func TestParseInputOneBagInAnother(t *testing.T) {
 shiny gold bags contain no other bags.`)
 
 	wantBm := NewBagMap()
-	wantBm.SetNode("muted yellow", &Node{Label: "muted yellow"})
-	wantBm.SetNode("shiny gold", &Node{
-		Label:   "shiny gold",
-		CanBeIn: [](*Node){wantBm.GetNode("muted yellow")},
+	containerNode := &Node{Label: "muted yellow"}
+	containedNode := &Node{Label: "shiny gold", CanBeIn: [](*Node){containerNode}}
+	wantBm.SetNode("muted yellow", containerNode)
+	wantBm.SetNode("shiny gold", containedNode)
+	containerNode.Contains = append(containerNode.Contains, Contains{
+		Node:  containedNode,
+		Count: 2,
 	})
 
 	assertBmEqual(t, gotBm, wantBm)
