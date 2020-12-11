@@ -18,6 +18,7 @@ func main() {
 		bm.SearchContainers(bm.GetNode("shiny gold"), &visited)
 		fmt.Println(len(visited) - 1)
 	case "2":
-		// fmt.Println(customs.SumAllQuestions(groups, customs.CustomGroup.CountEveryoneYeses))
+		counted := make(bags.CountedMap)
+		fmt.Println(bm.CountBags(bm.GetNode("shiny gold"), &counted) - 1)
 	}
 }

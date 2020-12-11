@@ -1,7 +1,10 @@
 package bags
 
+// import "fmt"
+
 type BagMap map[string]*Node
 type VisitedMap map[string]bool
+type CountedMap map[string]int
 type Contains struct {
 	Count int
 	Node  *Node
@@ -62,12 +65,16 @@ func (bm *BagMap) SearchContainers(startNode *Node, visited *VisitedMap) {
 	(*visited)[startNode.Label] = true
 }
 
-func (bm *BagMap) CountBags(startNode *Node, visited *VisitedMap, count *int) {
+func (bm *BagMap) CountBags(startNode *Node, counted *CountedMap) (count int) {
 	for _, edge := range startNode.Contains {
-		if !(*visited)[edge.Node.Label] {
-			(*count) += edge.Count
-			bm.CountBags(edge.Node, visited, count)
+		// if already traversed we use calculated count, otherwise, traverse!
+		if connectedCount := (*counted)[edge.Node.Label]; connectedCount > 0 {
+			count += connectedCount * edge.Count
+		} else {
+			count += bm.CountBags(edge.Node, counted) * edge.Count
 		}
 	}
-	(*visited)[startNode.Label] = true
+	(*counted)[startNode.Label] = count + 1
+
+	return count + 1
 }

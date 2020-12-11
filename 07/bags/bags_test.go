@@ -149,12 +149,28 @@ dotted black bags contain no other bags.`)
 func TestCountBagsVisitsConnectedNodes(t *testing.T) {
 	bm := NewBagMap()
 	bm.AddEdge("container", "contained", 10)
-	visited := make(VisitedMap)
-	count := 0
+	counted := make(CountedMap)
 
-	bm.CountBags(bm.GetNode("container"), &visited, &count)
+	count := bm.CountBags(bm.GetNode("container"), &counted)
 
-	assertEqual(t, count, 10)
+	assertEqual(t, count, 11)
+}
+
+func TestCountBagsWorksOnExample1(t *testing.T) {
+	bm := ParseInput(`light red bags contain 1 bright white bag, 2 muted yellow bags.
+dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+bright white bags contain 1 shiny gold bag.
+muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
+shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
+dark olive bags contain 3 faded blue bags, 4 dotted black bags.
+vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
+faded blue bags contain no other bags.
+dotted black bags contain no other bags.`)
+	counted := make(CountedMap)
+
+	count := bm.CountBags(bm.GetNode("shiny gold"), &counted)
+
+	assertEqual(t, count, 33)
 }
 
 func assertBmEqual(t *testing.T, gotBm, wantBm *BagMap) {
