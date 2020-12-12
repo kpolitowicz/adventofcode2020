@@ -120,7 +120,7 @@ acc +1`)
 	// acc +3 is marked as executed - it should not execute again
 	// and return error instead
 	err := program.executeNextCommand()
-	if err != "Error: infinite loop" {
+	if err == nil {
 		t.Errorf("Thereshould be an error, but:  %v", err)
 	}
 

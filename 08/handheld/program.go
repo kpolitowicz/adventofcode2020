@@ -12,19 +12,31 @@ type Command struct {
 	Executed    bool
 }
 
+type ProgramError struct {
+	Message string
+}
+
+func (e *ProgramError) Error() string {
+	return e.Message
+}
+
+func NewError(msg string) (err *ProgramError) {
+	return &ProgramError{msg}
+}
+
 func (p *Program) Execute() {
 	for p.Cursor < len(p.Commands) {
 		err := p.executeNextCommand()
-		if err != "" {
+		if err != nil {
 			break
 		}
 	}
 }
 
-func (p *Program) executeNextCommand() (err string) {
+func (p *Program) executeNextCommand() (err *ProgramError) {
 	nextCommand := &p.Commands[p.Cursor]
 	if nextCommand.Executed {
-		return "Error: infinite loop"
+		return NewError("Error: infinite loop")
 	}
 
 	switch nextCommand.Instruction {
