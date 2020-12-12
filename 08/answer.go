@@ -17,7 +17,7 @@ func main() {
 		program.Execute()
 		fmt.Println(program.Accumulator)
 	case "2":
-		// counted := make(handheld.CountedMap)
-		// fmt.Println(bm.CountBags(bm.GetNode("shiny gold"), &counted) - 1)
+		program.FixCorruptCommand()
+		fmt.Println(program.Accumulator)
 	}
 }
