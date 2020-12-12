@@ -139,3 +139,63 @@ acc +1`)
 		t.Errorf("The command %v should be marked as executed", program.Commands[0])
 	}
 }
+
+func TestFixCorruptCommand(t *testing.T) {
+	p := ParseInput(`nop +0
+acc +1
+jmp +4
+acc +3
+jmp -3
+acc -99
+acc +1
+jmp -4
+acc +6`)
+	program := &p
+
+	program.FixCorruptCommand()
+	got := program.Commands[7].Instruction
+	want := "nop"
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+
+	gotAcc := program.Accumulator
+	wantAcc := 8
+	if !reflect.DeepEqual(gotAcc, wantAcc) {
+		t.Errorf("got %v want %v", gotAcc, wantAcc)
+	}
+}
+
+func TestReinitialize(t *testing.T) {
+	p := ParseInput(`nop +0
+acc +1
+jmp +4
+acc +3
+jmp -3
+acc -99
+acc +1`)
+	program := &p
+
+	program.Execute()
+	program.reinitialize()
+
+	got := program.Accumulator
+	want := 0
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+
+	got = program.Cursor
+	want = 0
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+
+	var anyExecuted = false
+	for _, c := range program.Commands {
+		anyExecuted = anyExecuted || c.Executed
+	}
+	if anyExecuted {
+		t.Errorf("At least one command is still marked as Executed:  %v", p.Commands)
+	}
+}
