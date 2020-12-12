@@ -20,7 +20,6 @@ acc +1`)
 			{Instruction: "acc", Arg: -99},
 			{Instruction: "acc", Arg: 1},
 		},
-		Cursor: 0,
 	}
 
 	if !reflect.DeepEqual(got, want) {
