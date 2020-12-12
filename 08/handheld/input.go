@@ -6,16 +6,9 @@ import (
 	"strings"
 )
 
-type Program []Command
-
-type Command struct {
-	Instruction string
-	Arg         int
-}
-
 func ParseInput(input string) (res Program) {
 	for _, line := range strings.Split(input, "\n") {
-		res = append(res, parseInputLine(line))
+		res.Commands = append(res.Commands, parseInputLine(line))
 	}
 
 	return
