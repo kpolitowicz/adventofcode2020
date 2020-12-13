@@ -15,6 +15,7 @@ func main() {
 	switch os.Args[1] {
 	case "1":
 		diffs := jolts.CountJoltageDiffs()
+		fmt.Println(jolts)
 		fmt.Println(diffs[1] * diffs[3])
 	case "2":
 		// program.FixCorruptCommand()
