@@ -17,7 +17,7 @@ func TestExecuteNavigation(t *testing.T) {
 		{'F', 11},
 	}
 	ferry := NewFerry()
-	ferry.ExecuteNavigation(naviData)
+	ferry.ExecuteNavigation(naviData, (*Ferry).ExecuteCommand)
 
 	gotPos := ferry.Pos
 	wantPos := Position{17, -8}
@@ -35,7 +35,7 @@ func TestExecuteNavigation(t *testing.T) {
 func TestExecuteCommandN(t *testing.T) {
 	cmd := NavigationCmd{'N', 10}
 	ferry := NewFerry()
-	ferry.executeCommand(cmd)
+	ferry.ExecuteCommand(cmd)
 
 	gotPos := ferry.Pos
 	wantPos := Position{0, 10}
@@ -53,7 +53,7 @@ func TestExecuteCommandN(t *testing.T) {
 func TestExecuteCommandS(t *testing.T) {
 	cmd := NavigationCmd{'S', 10}
 	ferry := NewFerry()
-	ferry.executeCommand(cmd)
+	ferry.ExecuteCommand(cmd)
 
 	gotPos := ferry.Pos
 	wantPos := Position{0, -10}
@@ -71,7 +71,7 @@ func TestExecuteCommandS(t *testing.T) {
 func TestExecuteCommandE(t *testing.T) {
 	cmd := NavigationCmd{'E', 10}
 	ferry := NewFerry()
-	ferry.executeCommand(cmd)
+	ferry.ExecuteCommand(cmd)
 
 	gotPos := ferry.Pos
 	wantPos := Position{10, 0}
@@ -89,7 +89,7 @@ func TestExecuteCommandE(t *testing.T) {
 func TestExecuteCommandW(t *testing.T) {
 	cmd := NavigationCmd{'W', 1}
 	ferry := NewFerry()
-	ferry.executeCommand(cmd)
+	ferry.ExecuteCommand(cmd)
 
 	gotPos := ferry.Pos
 	wantPos := Position{-1, 0}
@@ -107,7 +107,7 @@ func TestExecuteCommandW(t *testing.T) {
 func TestExecuteCommandR(t *testing.T) {
 	cmd := NavigationCmd{'R', 450}
 	ferry := NewFerry()
-	ferry.executeCommand(cmd)
+	ferry.ExecuteCommand(cmd)
 
 	gotPos := ferry.Pos
 	wantPos := Position{0, 0}
@@ -125,7 +125,7 @@ func TestExecuteCommandR(t *testing.T) {
 func TestExecuteCommandL(t *testing.T) {
 	cmd := NavigationCmd{'L', 180}
 	ferry := NewFerry()
-	ferry.executeCommand(cmd)
+	ferry.ExecuteCommand(cmd)
 
 	gotPos := ferry.Pos
 	wantPos := Position{0, 0}
@@ -143,7 +143,7 @@ func TestExecuteCommandL(t *testing.T) {
 func TestExecuteCommandF(t *testing.T) {
 	cmd := NavigationCmd{'F', 5}
 	ferry := NewFerry()
-	ferry.executeCommand(cmd)
+	ferry.ExecuteCommand(cmd)
 
 	gotPos := ferry.Pos
 	wantPos := Position{5, 0}

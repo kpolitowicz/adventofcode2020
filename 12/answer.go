@@ -16,7 +16,7 @@ func main() {
 	switch os.Args[1] {
 	case "1":
 		ferry := rainrisk.NewFerry()
-		ferry.ExecuteNavigation(naviData)
+		ferry.ExecuteNavigation(naviData, (*rainrisk.Ferry).ExecuteCommand)
 		fmt.Println(math.Abs(float64(ferry.Pos.X)) + math.Abs(float64(ferry.Pos.Y)))
 	case "2":
 		// variants := jolts.CountChains()

@@ -9,6 +9,8 @@ type Ferry struct {
 	Facing int
 }
 
+type CommandExecutor func(*Ferry, NavigationCmd)
+
 func NewFerry() *Ferry {
 	return &Ferry{
 		Pos:    Position{0, 0},
@@ -16,13 +18,14 @@ func NewFerry() *Ferry {
 	}
 }
 
-func (f *Ferry) ExecuteNavigation(data NavigationData) {
+func (f *Ferry) ExecuteNavigation(data NavigationData, executor CommandExecutor) {
 	for _, cmd := range data {
-		f.executeCommand(cmd)
+		executor(f, cmd)
+		// f.executeCommand(cmd)
 	}
 }
 
-func (f *Ferry) executeCommand(cmd NavigationCmd) {
+func (f *Ferry) ExecuteCommand(cmd NavigationCmd) {
 	switch cmd.Cmd {
 	case 'N':
 		f.Pos = Position{f.Pos.X, f.Pos.Y + cmd.Arg}
