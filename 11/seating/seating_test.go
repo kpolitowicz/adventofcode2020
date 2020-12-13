@@ -38,6 +38,36 @@ L.LLLLL.LL`)
 	}
 }
 
+func TestSimulateBetterModel(t *testing.T) {
+	seatMap := ParseInput(`L.LL.LL.LL
+LLLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLLL
+L.LLLLLL.L
+L.LLLLL.LL`)
+	got := seatMap.Simulate(FerrySeating.TransformRowBetterModel)
+	want := FerrySeating{
+		"#.L#.L#.L#",
+		"#LLLLLL.LL",
+		"L.L.L..#..",
+		"##L#.#L.L#",
+		"L.L#.LL.L#",
+		"#.LLLL#.LL",
+		"..#.L.....",
+		"LLL###LLL#",
+		"#.LLLLL#.L",
+		"#.L#LL#.L#",
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
 func TestNextRoundAfterRound0(t *testing.T) {
 	seatMap := ParseInput(`L.LL.LL.LL
 LLLLLLL.LL
@@ -92,6 +122,69 @@ L.LLLLL.LL`)
 		"#LLLLLLLL#",
 		"#.LLLLLL.L",
 		"#.#LLLL.##",
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+func TestNextRoundAfter2RoundsBetterModel(t *testing.T) {
+	seatMap := ParseInput(`L.LL.LL.LL
+LLLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLLL
+L.LLLLLL.L
+L.LLLLL.LL`)
+	got := seatMap.NextRound(FerrySeating.TransformRowBetterModel)
+	got = got.NextRound(FerrySeating.TransformRowBetterModel)
+	want := FerrySeating{
+		"#.LL.LL.L#",
+		"#LLLLLL.LL",
+		"L.L.L..L..",
+		"LLLL.LL.LL",
+		"L.LL.LL.LL",
+		"L.LLLLL.LL",
+		"..L.L.....",
+		"LLLLLLLLL#",
+		"#.LLLLLL.L",
+		"#.LLLLL.L#",
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+func TestNextRoundAfter3RoundsBetterModel(t *testing.T) {
+	seatMap := ParseInput(`L.LL.LL.LL
+LLLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLLL
+L.LLLLLL.L
+L.LLLLL.LL`)
+	got := seatMap.NextRound(FerrySeating.TransformRowBetterModel)
+	got = got.NextRound(FerrySeating.TransformRowBetterModel)
+	got = got.NextRound(FerrySeating.TransformRowBetterModel)
+	want := FerrySeating{
+		"#.L#.##.L#",
+		"#L#####.LL",
+		"L.#.#..#..",
+		"##L#.##.##",
+		"#.##.#L.##",
+		"#.#####.#L",
+		"..#.#.....",
+		"LLL####LL#",
+		"#.L#####.L",
+		"#.L####.L#",
 	}
 
 	if !reflect.DeepEqual(got, want) {
