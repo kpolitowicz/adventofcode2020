@@ -18,7 +18,7 @@ func main() {
 		fmt.Println(jolts)
 		fmt.Println(diffs[1] * diffs[3])
 	case "2":
-		// program.FixCorruptCommand()
-		// fmt.Println(program.Accumulator)
+		variants := jolts.CountChains()
+		fmt.Println(variants)
 	}
 }
