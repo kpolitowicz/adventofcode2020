@@ -117,3 +117,21 @@ L.#.L..#..
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestCountOccupiedInSight8(t *testing.T) {
+	seatMap := ParseInput(`.......#.
+...#.....
+.#.......
+.........
+..#L....#
+....#....
+.........
+#........
+...#.....`)
+	got := seatMap.countOccupiedInSight(4, 3)
+	want := 8
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}

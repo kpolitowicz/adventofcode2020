@@ -65,6 +65,67 @@ func (fs FerrySeating) countOccupiedAdj(row, col int) (count int) {
 	return
 }
 
+func (fs FerrySeating) countOccupiedInSight(row, col int) (count int) {
+	// check up
+	for i := row - 1; i >= 0; i-- {
+		if fs.isOccupied(i, col) {
+			count++
+			break
+		}
+	}
+	// check down
+	for i := row + 1; i < len(fs); i++ {
+		if fs.isOccupied(i, col) {
+			count++
+			break
+		}
+	}
+	// check left
+	for i := col - 1; i >= 0; i-- {
+		if fs.isOccupied(row, i) {
+			count++
+			break
+		}
+	}
+	// check right
+	for i := col + 1; i < len(fs[0]); i++ {
+		if fs.isOccupied(row, i) {
+			count++
+			break
+		}
+	}
+	// check up-left
+	for i := row - 1; i >= 0; i-- {
+		if fs.isOccupied(i, col-(row-i)) {
+			count++
+			break
+		}
+	}
+	// check up-right
+	for i := row - 1; i >= 0; i-- {
+		if fs.isOccupied(i, col+(row-i)) {
+			count++
+			break
+		}
+	}
+	// check down-right
+	for i := row + 1; i < len(fs); i++ {
+		if fs.isOccupied(i, col+(i-row)) {
+			count++
+			break
+		}
+	}
+	// check down-left
+	for i := row + 1; i < len(fs); i++ {
+		if fs.isOccupied(i, col-(i-row)) {
+			count++
+			break
+		}
+	}
+
+	return
+}
+
 func (fs FerrySeating) isOccupied(row, col int) bool {
 	if row < 0 || col < 0 {
 		return false
