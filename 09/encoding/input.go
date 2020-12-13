@@ -1,4 +1,4 @@
-package handheld
+package encoding
 
 import (
 	// "regexp"
@@ -6,27 +6,12 @@ import (
 	"strings"
 )
 
-func ParseInput(input string) (res Program) {
+type XmasData []uint64
+
+func ParseInput(input string) (res XmasData) {
 	for _, line := range strings.Split(input, "\n") {
-		res.Commands = append(res.Commands, parseInputLine(line))
-	}
-
-	return
-}
-
-func parseInputLine(line string) Command {
-	parsedCommand := strings.Split(line, " ")
-
-	return Command{
-		Instruction: parsedCommand[0],
-		Arg:         parseArg(parsedCommand[1]),
-	}
-}
-
-func parseArg(arg string) (res int) {
-	res, _ = strconv.Atoi(arg[1:])
-	if arg[0] == '-' {
-		res = -res
+		num, _ := strconv.ParseUint(line, 10, 64)
+		res = append(res, num)
 	}
 
 	return
