@@ -86,8 +86,6 @@ func (fs FerrySeating) TransformRowBetterModel(rowIdx int, row string) (res stri
 		}
 	}
 
-	fmt.Println(row)
-	fmt.Println(res)
 	return
 }
 
