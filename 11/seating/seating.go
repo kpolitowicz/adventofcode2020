@@ -1,11 +1,12 @@
 package seating
 
 type FerrySeating []string
+type BehaviorModel func(FerrySeating, int, string) string
 
-func (fs FerrySeating) Simulate() (res FerrySeating) {
+func (fs FerrySeating) Simulate(behaviorModel BehaviorModel) (res FerrySeating) {
 	old := fs
 	for {
-		res = old.NextRound()
+		res = old.NextRound(behaviorModel)
 		if old.equal(res) {
 			break
 		} else {
@@ -16,15 +17,16 @@ func (fs FerrySeating) Simulate() (res FerrySeating) {
 	return
 }
 
-func (fs FerrySeating) NextRound() (res FerrySeating) {
+func (fs FerrySeating) NextRound(behaviorModel BehaviorModel) (res FerrySeating) {
 	for idx, row := range fs {
-		res = append(res, fs.transformRow(idx, row))
+		res = append(res, behaviorModel(fs, idx, row))
+		// res = append(res, fs.transformRow(idx, row))
 	}
 
 	return
 }
 
-func (fs FerrySeating) transformRow(rowIdx int, row string) (res string) {
+func (fs FerrySeating) TransformRow(rowIdx int, row string) (res string) {
 	for colIdx, seat := range row {
 		switch seat {
 		case '.':
@@ -40,6 +42,32 @@ func (fs FerrySeating) transformRow(rowIdx int, row string) (res string) {
 		case '#':
 			// change to L if 4+ adjacent occupied
 			if fs.countOccupiedAdj(rowIdx, colIdx) >= 4 {
+				res += "L"
+			} else {
+				res += "#"
+			}
+		}
+	}
+
+	return
+}
+
+func (fs FerrySeating) TransformRowBetterModel(rowIdx int, row string) (res string) {
+	for colIdx, seat := range row {
+		switch seat {
+		case '.':
+			// floor stays floor
+			res += "."
+		case 'L':
+			// change to # if no adjacent occupied
+			if fs.countOccupiedInSight(rowIdx, colIdx) == 0 {
+				res += "#"
+			} else {
+				res += "L"
+			}
+		case '#':
+			// change to L if 4+ adjacent occupied
+			if fs.countOccupiedInSight(rowIdx, colIdx) >= 5 {
 				res += "L"
 			} else {
 				res += "#"

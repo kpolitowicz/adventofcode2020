@@ -14,7 +14,7 @@ func main() {
 
 	switch os.Args[1] {
 	case "1":
-		finalSeating := seatMap.Simulate()
+		finalSeating := seatMap.Simulate(seating.FerrySeating.TransformRow)
 		fmt.Println(finalSeating.CountOccupied())
 	case "2":
 		// variants := jolts.CountChains()

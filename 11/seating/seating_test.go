@@ -19,7 +19,7 @@ L.LLLLL.LL
 LLLLLLLLLL
 L.LLLLLL.L
 L.LLLLL.LL`)
-	got := seatMap.Simulate()
+	got := seatMap.Simulate(FerrySeating.TransformRow)
 	want := FerrySeating{
 		"#.#L.L#.##",
 		"#LLL#LL.L#",
@@ -49,7 +49,7 @@ L.LLLLL.LL
 LLLLLLLLLL
 L.LLLLLL.L
 L.LLLLL.LL`)
-	got := seatMap.NextRound()
+	got := seatMap.NextRound(FerrySeating.TransformRow)
 	want := FerrySeating{
 		"#.##.##.##",
 		"#######.##",
@@ -79,8 +79,8 @@ L.LLLLL.LL
 LLLLLLLLLL
 L.LLLLLL.L
 L.LLLLL.LL`)
-	got := seatMap.NextRound()
-	got = got.NextRound()
+	got := seatMap.NextRound(FerrySeating.TransformRow)
+	got = got.NextRound(FerrySeating.TransformRow)
 	want := FerrySeating{
 		"#.LL.L#.##",
 		"#LLLLLL.L#",
