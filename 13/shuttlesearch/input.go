@@ -8,8 +8,6 @@ import (
 
 var _ = fmt.Println
 
-type BusSchedule []int
-
 func ParseInput(input string) (res BusSchedule) {
 	for idx, line := range strings.Split(input, "\n") {
 		if idx == 0 {
