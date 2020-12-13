@@ -12,14 +12,13 @@ import (
 func main() {
 	dat, _ := ioutil.ReadFile("input.txt")
 	naviData := rainrisk.ParseInput(strings.Trim(string(dat), "\n"))
+	ferry := rainrisk.NewFerry()
 
 	switch os.Args[1] {
 	case "1":
-		ferry := rainrisk.NewFerry()
 		ferry.ExecuteNavigation(naviData, (*rainrisk.Ferry).ExecuteCommand)
-		fmt.Println(math.Abs(float64(ferry.Pos.X)) + math.Abs(float64(ferry.Pos.Y)))
 	case "2":
-		// variants := jolts.CountChains()
-		// fmt.Println(variants)
+		ferry.ExecuteNavigation(naviData, (*rainrisk.Ferry).ExecuteWaypointCommand)
 	}
+	fmt.Println(math.Abs(float64(ferry.Pos.X)) + math.Abs(float64(ferry.Pos.Y)))
 }
