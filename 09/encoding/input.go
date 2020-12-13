@@ -18,6 +18,23 @@ func (d XmasData) FindBadNumber(preambleSize int) (res uint64) {
 	return
 }
 
+func (d XmasData) FindSetForWeakness(num uint64) (int, int) {
+	for i := 0; i < len(d)-1; i++ {
+		sum := d[i]
+		for j := i + 1; j < len(d); j++ {
+			sum += d[j]
+			if sum == num {
+				return i, j
+			}
+			if sum > num {
+				break
+			}
+		}
+	}
+
+	return 0, 0
+}
+
 func (d XmasData) goodNumber(index, preambleSize int) bool {
 	num := d[index]
 

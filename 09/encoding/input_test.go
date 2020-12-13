@@ -77,3 +77,36 @@ func TestGoodNumber(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestFindSetForWeakness(t *testing.T) {
+	sequence := ParseInput(`35
+20
+15
+25
+47
+40
+62
+55
+65
+95
+102
+117
+150
+182
+127
+219
+299
+277
+309
+576`)
+	minIdx, maxIdx := sequence.FindSetForWeakness(uint64(127))
+	wantMin := 2
+	wantMax := 5
+
+	if !reflect.DeepEqual(minIdx, wantMin) {
+		t.Errorf("got %v want %v", minIdx, wantMin)
+	}
+	if !reflect.DeepEqual(maxIdx, wantMax) {
+		t.Errorf("got %v want %v", maxIdx, wantMax)
+	}
+}
