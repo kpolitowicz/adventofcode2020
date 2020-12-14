@@ -34,6 +34,12 @@ func (c *Computer) SetMemoryAt(addr, value uint64) {
 	c.Memory[addr] = value
 }
 
+func (c *Computer) Execute(program *Program) {
+	for _, cmd := range *program {
+		cmd.ExecuteOn(c)
+	}
+}
+
 func (c *Computer) OrMask() uint64 {
 	strMask := ""
 	for _, ch := range c.CurrentMask {

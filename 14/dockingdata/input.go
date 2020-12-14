@@ -10,6 +10,7 @@ import (
 var _ = fmt.Println
 
 type Cmd interface {
+	ExecuteOn(*Computer)
 }
 
 type MaskCmd struct {
