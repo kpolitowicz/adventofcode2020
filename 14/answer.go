@@ -11,11 +11,11 @@ import (
 func main() {
 	dat, _ := ioutil.ReadFile("input.txt")
 	program := dockingdata.ParseInput(strings.Trim(string(dat), "\n"))
-	computer := dockingdata.NewComputer()
-	computer.Execute(&program)
 
 	switch os.Args[1] {
 	case "1":
+		computer := dockingdata.NewComputer(1)
+		computer.Execute(&program)
 		sum := uint64(0)
 		for _, val := range computer.GetMemory() {
 			sum += val

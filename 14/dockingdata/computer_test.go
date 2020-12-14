@@ -9,7 +9,7 @@ import (
 var _ = fmt.Println
 
 func TestExecute(t *testing.T) {
-	computer := NewComputer()
+	computer := NewComputer(1)
 	program := Program{
 		MaskCmd{"XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X"},
 		MemWriteCmd{8, 11},
@@ -30,7 +30,7 @@ func TestExecute(t *testing.T) {
 }
 
 func TestOrMask(t *testing.T) {
-	computer := NewComputer()
+	computer := NewComputer(1)
 	computer.SetMask("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X")
 
 	got := computer.OrMask()
@@ -42,7 +42,7 @@ func TestOrMask(t *testing.T) {
 }
 
 func TestAndMask(t *testing.T) {
-	computer := NewComputer()
+	computer := NewComputer(1)
 	computer.SetMask("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X")
 
 	got := computer.AndMask()

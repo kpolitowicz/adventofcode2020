@@ -7,14 +7,16 @@ import (
 type Computer struct {
 	CurrentMask string
 	Memory      MemMap
+	Version     int
 }
 
 type MemMap map[uint64]uint64
 
-func NewComputer() *Computer {
+func NewComputer(version int) *Computer {
 	return &Computer{
 		CurrentMask: "",
 		Memory:      make(MemMap),
+		Version:     version,
 	}
 }
 

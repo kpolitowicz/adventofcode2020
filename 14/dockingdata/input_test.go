@@ -26,7 +26,7 @@ mem[8] = 0`)
 }
 
 func TestExecuteMaskCmd(t *testing.T) {
-	computer := NewComputer()
+	computer := NewComputer(1)
 	maskCmd := MaskCmd{"XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X"}
 	maskCmd.ExecuteOn(computer)
 
@@ -39,7 +39,7 @@ func TestExecuteMaskCmd(t *testing.T) {
 }
 
 func TestExecuteMemWrite(t *testing.T) {
-	computer := NewComputer()
+	computer := NewComputer(1)
 	computer.SetMask("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X")
 
 	memWriteCmd := MemWriteCmd{8, 11}
