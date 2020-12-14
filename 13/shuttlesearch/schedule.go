@@ -18,6 +18,9 @@ func (s BusSchedule) FindEarliestTimestamp() uint64 {
 
 	for i := uint64(maxBusId); ; i += uint64(maxBusId) {
 		ts := i - uint64(maxBusIdIdx)
+		if i%uint64(1000000000) == 0 {
+			fmt.Println(ts)
+		}
 		if s.checkAtTimestamp(ts) {
 			return ts
 		}
