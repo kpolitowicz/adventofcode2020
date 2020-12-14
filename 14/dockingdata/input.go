@@ -16,8 +16,17 @@ type MaskCmd struct {
 	Mask string
 }
 
+func (m MaskCmd) ExecuteOn(c *Computer) {
+	c.SetMask(m.Mask)
+}
+
 type MemWriteCmd struct {
-	Addr, Value uint
+	Addr, Value uint64
+}
+
+func (mw MemWriteCmd) ExecuteOn(c *Computer) {
+	value := (mw.Value | c.OrMask()) & c.AndMask()
+	c.SetMemoryAt(mw.Addr, value)
 }
 
 type Program []Cmd
@@ -44,8 +53,8 @@ func parseMask(line string) MaskCmd {
 
 func parseMemWriteCmd(line string) MemWriteCmd {
 	splits := strings.Split(line, "] = ")
-	addr, _ := strconv.ParseUint(splits[0][4:], 10, 32)
-	value, _ := strconv.ParseUint(splits[1], 10, 32)
+	addr, _ := strconv.ParseUint(splits[0][4:], 10, 64)
+	value, _ := strconv.ParseUint(splits[1], 10, 64)
 
-	return MemWriteCmd{uint(addr), uint(value)}
+	return MemWriteCmd{addr, value}
 }

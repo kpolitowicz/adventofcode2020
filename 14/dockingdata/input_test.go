@@ -24,3 +24,31 @@ mem[8] = 0`)
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestExecuteMaskCmd(t *testing.T) {
+	computer := NewComputer()
+	maskCmd := MaskCmd{"XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X"}
+	maskCmd.ExecuteOn(computer)
+
+	got := computer.GetMask()
+	want := "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X"
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+func TestExecuteMemWrite(t *testing.T) {
+	computer := NewComputer()
+	computer.SetMask("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X")
+
+	memWriteCmd := MemWriteCmd{8, 11}
+	memWriteCmd.ExecuteOn(computer)
+
+	got := computer.GetMemory()[8]
+	want := uint64(73)
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
