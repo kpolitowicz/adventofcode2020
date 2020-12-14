@@ -2,74 +2,50 @@ package dockingdata
 
 import (
 	"fmt"
-	"sort"
+	// "sort"
 	"strconv"
 	"strings"
 )
 
 var _ = fmt.Println
 
-type JoltageAdapters []int
-
-func (ja JoltageAdapters) CountJoltageDiffs() map[int]int {
-	res := make(map[int]int)
-
-	prev := 0
-	for _, next := range ja {
-		if next == 0 {
-			continue
-		}
-		diff := next - prev
-		res[diff]++
-		prev = next
-	}
-
-	return res
+type Cmd interface {
 }
 
-func (ja JoltageAdapters) CountChains() uint64 {
-	res := uint64(1)
-
-	prev := 0
-	currentStreakLen := 0 // streak is the chain of increase-by-1 joltages
-	for _, next := range ja {
-		diff := next - prev
-		prev = next
-		if diff > 1 {
-			res *= ja.combinationsForStreakOf(currentStreakLen)
-			currentStreakLen = 1
-		} else {
-			currentStreakLen++
-		}
-	}
-
-	return res
+type MaskCmd struct {
+	Mask string
 }
 
-func (ja JoltageAdapters) combinationsForStreakOf(length int) uint64 {
-	switch length {
-	case 0, 1, 2:
-		return 1
-	case 3:
-		return 2
-	case 4:
-		return 4
-	case 5:
-		return 7
-	default:
-		return 0
-	}
+type MemWriteCmd struct {
+	Addr, Value uint
 }
 
-func ParseInput(input string) (res JoltageAdapters) {
-	res = JoltageAdapters{0}
+type Program []Cmd
+
+func ParseInput(input string) (res Program) {
+	var parsedCmd Cmd
 	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line)
-		res = append(res, num)
+		if line[:4] == "mask" {
+			parsedCmd = parseMask(line)
+		} else {
+			parsedCmd = parseMemWriteCmd(line)
+		}
+		res = append(res, parsedCmd)
 	}
-
-	sort.Ints(res)
-	res = append(res, res[len(res)-1]+3) //add device as +3
 
 	return
+}
+
+func parseMask(line string) MaskCmd {
+	splits := strings.Split(line, " = ")
+
+	return MaskCmd{splits[1]}
+}
+
+func parseMemWriteCmd(line string) MemWriteCmd {
+	splits := strings.Split(line, "] = ")
+	addr, _ := strconv.ParseUint(splits[0][4:], 10, 32)
+	value, _ := strconv.ParseUint(splits[1], 10, 32)
+
+	return MemWriteCmd{uint(addr), uint(value)}
 }
