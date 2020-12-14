@@ -1,8 +1,11 @@
 package dockingdata
 
 import (
+	"fmt"
 	"strconv"
 )
+
+var _ = fmt.Println
 
 type Computer struct {
 	CurrentMask string
@@ -67,4 +70,25 @@ func (c *Computer) AndMask() uint64 {
 
 	intMask, _ := strconv.ParseUint(strMask, 2, 64)
 	return intMask
+}
+
+func (c *Computer) AllFloating(num uint64) (res []uint64) {
+	strMask := c.bitMaskFor(num)
+	fmt.Println(strMask)
+
+	return
+}
+
+func (c *Computer) bitMaskFor(num uint64) (res string) {
+	strMask := fmt.Sprintf("%036s", strconv.FormatUint(num, 2))
+	for idx, ch := range c.CurrentMask {
+		switch ch {
+		case '0':
+			res += string(strMask[idx])
+		case '1', 'X':
+			res += string(ch)
+		}
+	}
+
+	return
 }

@@ -52,3 +52,15 @@ func TestAndMask(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestAllFloating(t *testing.T) {
+	computer := NewComputer(2)
+	computer.SetMask("000000000000000000000000000000X1001X")
+
+	got := computer.AllFloating(42)
+	want := []uint64{26, 27, 58, 59}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
