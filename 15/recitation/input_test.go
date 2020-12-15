@@ -9,11 +9,15 @@ import (
 var _ = fmt.Println
 
 func TestParseInput(t *testing.T) {
-	got := ParseInput(`35
-20
-15
-25`)
-	want := JoltageAdapters{0, 15, 20, 25, 35, 38}
+	got := ParseInput("0,3,6")
+	want := &MemoryGame{
+		Numbers: []int{0, 3, 6},
+		LastSpoken: map[int]int{
+			0: 0,
+			3: 1,
+			6: 2,
+		},
+	}
 
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v want %v", got, want)

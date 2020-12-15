@@ -2,22 +2,29 @@ package recitation
 
 import (
 	"fmt"
-	"sort"
+	// "sort"
 	"strconv"
 	"strings"
 )
 
 var _ = fmt.Println
 
-func ParseInput(input string) (res JoltageAdapters) {
-	res = JoltageAdapters{0}
-	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line)
-		res = append(res, num)
+type MemoryGame struct {
+	Numbers    []int
+	LastSpoken map[int]int
+}
+
+func ParseInput(input string) *MemoryGame {
+	res := MemoryGame{
+		Numbers:    []int{},
+		LastSpoken: make(map[int]int),
 	}
 
-	sort.Ints(res)
-	res = append(res, res[len(res)-1]+3) //add device as +3
+	for idx, numStr := range strings.Split(input, ",") {
+		num, _ := strconv.Atoi(numStr)
+		res.Numbers = append(res.Numbers, num)
+		res.LastSpoken[num] = idx
+	}
 
-	return
+	return &res
 }
