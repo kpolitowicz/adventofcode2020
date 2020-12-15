@@ -16,7 +16,7 @@ func main() {
 		game.TakeTurnsUntil(2020)
 		fmt.Println(game.LastNumber())
 	case "2":
-		// variants := jolts.CountChains()
-		// fmt.Println(variants)
+		game.TakeTurnsUntil(30000000)
+		fmt.Println(game.LastNumber())
 	}
 }
