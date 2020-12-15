@@ -52,3 +52,23 @@ func TestExecuteMemWrite(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestExecuteMemWriteVer2(t *testing.T) {
+	computer := NewComputer(2)
+	computer.SetMask("000000000000000000000000000000X1001X")
+
+	memWriteCmd := MemWriteCmd{42, 100}
+	memWriteCmd.ExecuteOn(computer)
+
+	got := computer.GetMemory()
+	want := MemMap{
+		26: 100,
+		27: 100,
+		58: 100,
+		59: 100,
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}

@@ -26,8 +26,15 @@ type MemWriteCmd struct {
 }
 
 func (mw MemWriteCmd) ExecuteOn(c *Computer) {
-	value := (mw.Value | c.OrMask()) & c.AndMask()
-	c.SetMemoryAt(mw.Addr, value)
+	switch c.Version {
+	case 1:
+		value := (mw.Value | c.OrMask()) & c.AndMask()
+		c.SetMemoryAt(mw.Addr, value)
+	case 2:
+		for _, memAddr := range c.AllFloating(mw.Addr) {
+			c.SetMemoryAt(memAddr, mw.Value)
+		}
+	}
 }
 
 type Program []Cmd
