@@ -2,13 +2,18 @@ package tickettranslation
 
 type Ticket []int
 
+func (t Ticket) errorRate(rules Rules) (sum int) {
+	for _, num := range t {
+		if !validForAnyField(num, rules) {
+			sum += num
+		}
+	}
+	return
+}
+
 func TicketScanningErrorRate(tickets []Ticket, rules Rules) (sum int) {
 	for _, ticket := range tickets {
-		for _, num := range ticket {
-			if !validForAnyField(num, rules) {
-				sum += num
-			}
-		}
+		sum += ticket.errorRate(rules)
 	}
 	return
 }
