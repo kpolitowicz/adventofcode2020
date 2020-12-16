@@ -10,13 +10,14 @@ import (
 
 func main() {
 	dat, _ := ioutil.ReadFile("input.txt")
-	rules, _, nearbyTickets := tickettranslation.ParseInput(strings.Trim(string(dat), "\n"))
+	rules, myTicket, nearbyTickets := tickettranslation.ParseInput(strings.Trim(string(dat), "\n"))
 
 	switch os.Args[1] {
 	case "1":
 		fmt.Println(tickettranslation.TicketScanningErrorRate(nearbyTickets, rules))
 	case "2":
-		// variants := jolts.CountChains()
-		// fmt.Println(variants)
+		validTickets := tickettranslation.AllValidTickets(rules, nearbyTickets, myTicket)
+		mapping := tickettranslation.TicketFieldsMapping(rules, validTickets)
+		myTicket.Print(mapping)
 	}
 }

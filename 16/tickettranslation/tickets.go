@@ -2,6 +2,7 @@ package tickettranslation
 
 import (
 	"fmt"
+	"strconv"
 )
 
 var _ = fmt.Println
@@ -16,6 +17,13 @@ func (t Ticket) errorRate(rules Rules) (sum int) {
 		}
 	}
 	return
+}
+
+func (t Ticket) Print(fm TicketFieldsMaybeMap) {
+	for label, fieldAry := range fm {
+		field := fieldAry[0]
+		fmt.Println(label + ": " + strconv.FormatInt(int64(t[field]), 10))
+	}
 }
 
 func TicketScanningErrorRate(tickets []Ticket, rules Rules) (sum int) {
