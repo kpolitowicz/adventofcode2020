@@ -3,6 +3,7 @@ package tickettranslation
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 var _ = fmt.Println
@@ -24,6 +25,16 @@ func (t Ticket) Print(fm TicketFieldsMaybeMap) {
 		field := fieldAry[0]
 		fmt.Println(label + ": " + strconv.FormatInt(int64(t[field]), 10))
 	}
+}
+
+func (t Ticket) DepartureValues(fm TicketFieldsMaybeMap) (res []int) {
+	for label, fieldAry := range fm {
+		if strings.HasPrefix(label, "departure") {
+			field := fieldAry[0]
+			res = append(res, t[field])
+		}
+	}
+	return
 }
 
 func TicketScanningErrorRate(tickets []Ticket, rules Rules) (sum int) {

@@ -18,6 +18,10 @@ func main() {
 	case "2":
 		validTickets := tickettranslation.AllValidTickets(rules, nearbyTickets, myTicket)
 		mapping := tickettranslation.TicketFieldsMapping(rules, validTickets)
-		myTicket.Print(mapping)
+		mult := 1
+		for _, num := range myTicket.DepartureValues(mapping) {
+			mult *= num
+		}
+		fmt.Println(mult)
 	}
 }
