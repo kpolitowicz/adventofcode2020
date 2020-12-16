@@ -2,74 +2,65 @@ package tickettranslation
 
 import (
 	"fmt"
-	"sort"
+	"regexp"
 	"strconv"
 	"strings"
 )
 
 var _ = fmt.Println
 
-type JoltageAdapters []int
+type Range struct {
+	Min, Max int
+}
+type Rules map[string]([]Range)
 
-func (ja JoltageAdapters) CountJoltageDiffs() map[int]int {
-	res := make(map[int]int)
+type Ticket []int
 
-	prev := 0
-	for _, next := range ja {
-		if next == 0 {
+func ParseInput(input string) (Rules, Ticket, []Ticket) {
+	var myTicket Ticket
+	var nearbyTickets []Ticket
+	rules := make(Rules)
+
+	currentInputSection := 0
+	for _, line := range strings.Split(input, "\n") {
+		if line == "" {
+			currentInputSection++
 			continue
 		}
-		diff := next - prev
-		res[diff]++
-		prev = next
-	}
-
-	return res
-}
-
-func (ja JoltageAdapters) CountChains() uint64 {
-	res := uint64(1)
-
-	prev := 0
-	currentStreakLen := 0 // streak is the chain of increase-by-1 joltages
-	for _, next := range ja {
-		diff := next - prev
-		prev = next
-		if diff > 1 {
-			res *= ja.combinationsForStreakOf(currentStreakLen)
-			currentStreakLen = 1
-		} else {
-			currentStreakLen++
+		if line == "your ticket:" || line == "nearby tickets:" {
+			continue
+		}
+		switch currentInputSection {
+		case 0: // rules
+			label, range1, range2 := parseRulesLine(line)
+			rules[label] = []Range{range1, range2}
+		case 1: // my ticket
+			myTicket = parseTicketLine(line)
+		case 2: // nearby tickets
+			nearbyTickets = append(nearbyTickets, parseTicketLine(line))
 		}
 	}
 
-	return res
+	return rules, myTicket, nearbyTickets
 }
 
-func (ja JoltageAdapters) combinationsForStreakOf(length int) uint64 {
-	switch length {
-	case 0, 1, 2:
-		return 1
-	case 3:
-		return 2
-	case 4:
-		return 4
-	case 5:
-		return 7
-	default:
-		return 0
-	}
+func parseRulesLine(line string) (string, Range, Range) {
+	validRule := regexp.MustCompile(`^(.*): (\d+)-(\d+) or (\d+)-(\d+)$`)
+	matches := validRule.FindSubmatch([]byte(line))
+
+	label := string(matches[1])
+	range1Min, _ := strconv.Atoi(string(matches[2]))
+	range1Max, _ := strconv.Atoi(string(matches[3]))
+	range2Min, _ := strconv.Atoi(string(matches[4]))
+	range2Max, _ := strconv.Atoi(string(matches[5]))
+	return label, Range{range1Min, range1Max}, Range{range2Min, range2Max}
 }
 
-func ParseInput(input string) (res JoltageAdapters) {
-	res = JoltageAdapters{0}
-	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line)
+func parseTicketLine(line string) (res Ticket) {
+	for _, numStr := range strings.Split(line, ",") {
+		num, _ := strconv.Atoi(numStr)
 		res = append(res, num)
 	}
-
-	sort.Ints(res)
-	res = append(res, res[len(res)-1]+3) //add device as +3
 
 	return
 }
