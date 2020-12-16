@@ -54,3 +54,27 @@ nearby tickets:
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestTicketFieldsMapping(t *testing.T) {
+	rules := Rules{
+		"class": []Range{{0, 1}, {4, 19}},
+		"row":   []Range{{0, 5}, {8, 19}},
+		"seat":  []Range{{0, 13}, {16, 19}},
+	}
+	tickets := []Ticket{
+		{11, 12, 13},
+		{3, 9, 18},
+		{15, 1, 5},
+		{5, 14, 9},
+	}
+
+	got := TicketFieldsMapping(rules, tickets)
+	want := TicketFieldsMaybeMap{
+		"class": []int{1},
+		"row":   []int{0},
+		"seat":  []int{2},
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
