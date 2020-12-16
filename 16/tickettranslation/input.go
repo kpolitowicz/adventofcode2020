@@ -14,8 +14,6 @@ type Range struct {
 }
 type Rules map[string]([]Range)
 
-type Ticket []int
-
 func ParseInput(input string) (Rules, Ticket, []Ticket) {
 	var myTicket Ticket
 	var nearbyTickets []Ticket
