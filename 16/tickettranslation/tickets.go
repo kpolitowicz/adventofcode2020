@@ -18,6 +18,16 @@ func TicketScanningErrorRate(tickets []Ticket, rules Rules) (sum int) {
 	return
 }
 
+func AllValidTickets(rules Rules, tickets []Ticket, myTicket Ticket) []Ticket {
+	res := []Ticket{myTicket}
+	for _, ticket := range tickets {
+		if ticket.errorRate(rules) == 0 {
+			res = append(res, ticket)
+		}
+	}
+	return res
+}
+
 func validForAnyField(num int, rules Rules) bool {
 	for _, ranges := range rules {
 		for _, r := range ranges {
