@@ -5,6 +5,23 @@ import (
 	"testing"
 )
 
+func TestCountActiveHyper(t *testing.T) {
+	hu := hyperUniverse{{{
+		".#.",
+		"..#",
+		"###",
+	}}}
+
+	// 6 cycles
+	lastHu := hu.CycleOnce().CycleOnce().CycleOnce().CycleOnce().CycleOnce().CycleOnce()
+
+	got := lastHu.CountActive()
+	want := 848
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
 func TestCountActive(t *testing.T) {
 	pu := pocketUniverse{{
 		".#.",

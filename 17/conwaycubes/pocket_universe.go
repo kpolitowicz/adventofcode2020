@@ -5,13 +5,102 @@ import (
 	"strconv"
 )
 
-type zLayer []string
+type hyperUniverse []pocketUniverse
 
-func (l zLayer) String() (res string) {
-	for _, str := range l {
-		res += fmt.Sprintf("%s\n", str)
+func (hu hyperUniverse) CountActive() (count int) {
+	for w := 0; w < len(hu); w++ {
+		for z := 0; z < len(hu[0]); z++ {
+			for row := 0; row < len(hu[0][0]); row++ {
+				for col := 0; col < len(hu[0][0][0]); col++ {
+					if hu[w][z][row][col] == '#' {
+						count++
+					}
+				}
+			}
+		}
 	}
 	return
+}
+
+func (hu hyperUniverse) CycleOnce() (res hyperUniverse) {
+	for w := -1; w <= len(hu); w++ {
+		cube := pocketUniverse{}
+		for z := -1; z <= len(hu[0]); z++ {
+			layer := zLayer{}
+			for row := -1; row <= len(hu[0][0]); row++ {
+				str := ""
+				for col := -1; col <= len(hu[0][0][0]); col++ {
+					str += hu.calcNextCycleCube(w, z, row, col)
+				}
+				layer = append(layer, str)
+			}
+			cube = append(cube, layer)
+		}
+		res = append(res, cube)
+	}
+	return
+}
+
+func (hu hyperUniverse) calcNextCycleCube(w, z, r, c int) string {
+	currentCube := hu.currentCube(w, z, r, c)
+	activeNeighbors := hu.countActiveNeighbors(w, z, r, c)
+	switch currentCube {
+	case '.':
+		if activeNeighbors == 3 {
+			return "#"
+		} else {
+			return "."
+		}
+	case '#':
+		if activeNeighbors == 2 || activeNeighbors == 3 {
+			return "#"
+		} else {
+			return "."
+		}
+	}
+	return "."
+}
+
+func (hu hyperUniverse) currentCube(w, z, r, c int) byte {
+	if hu.invalidCoord(w, z, r, c) {
+		return '.'
+	}
+	return hu[w][z][r][c]
+}
+
+func (hu hyperUniverse) countActiveNeighbors(w, z, r, c int) (count int) {
+	for dw := -1; dw <= 1; dw++ {
+		for dz := -1; dz <= 1; dz++ {
+			for dr := -1; dr <= 1; dr++ {
+				for dc := -1; dc <= 1; dc++ {
+					if dw == 0 && dz == 0 && dr == 0 && dc == 0 {
+						continue
+					}
+					neww := w + dw
+					newz := z + dz
+					newr := r + dr
+					newc := c + dc
+					if hu.invalidCoord(neww, newz, newr, newc) {
+						continue
+					}
+					if hu[neww][newz][newr][newc] == '#' {
+						count++
+					}
+				}
+			}
+		}
+	}
+	return
+}
+
+func (hu hyperUniverse) invalidCoord(w, z, r, c int) bool {
+	if w < 0 || z < 0 || r < 0 || c < 0 {
+		return true
+	}
+	if w >= len(hu) || z >= len(hu[0]) || r >= len(hu[0][0]) || c >= len(hu[0][0][0]) {
+		return true
+	}
+	return false
 }
 
 type pocketUniverse []zLayer
@@ -109,4 +198,13 @@ func (pu pocketUniverse) invalidCoord(z, r, c int) bool {
 		return true
 	}
 	return false
+}
+
+type zLayer []string
+
+func (l zLayer) String() (res string) {
+	for _, str := range l {
+		res += fmt.Sprintf("%s\n", str)
+	}
+	return
 }
