@@ -24,6 +24,19 @@ func (pu pocketUniverse) String() (res string) {
 	return
 }
 
+func (pu pocketUniverse) CountActive() (count int) {
+	for z := 0; z < len(pu); z++ {
+		for row := 0; row < len(pu[0]); row++ {
+			for col := 0; col < len(pu[0][0]); col++ {
+				if pu[z][row][col] == '#' {
+					count++
+				}
+			}
+		}
+	}
+	return
+}
+
 func (pu pocketUniverse) CycleOnce() (res pocketUniverse) {
 	for z := -1; z <= len(pu); z++ {
 		layer := zLayer{}

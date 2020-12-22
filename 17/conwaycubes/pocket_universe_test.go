@@ -5,6 +5,23 @@ import (
 	"testing"
 )
 
+func TestCountActive(t *testing.T) {
+	pu := pocketUniverse{{
+		".#.",
+		"..#",
+		"###",
+	}}
+
+	// 6 cycles
+	lastPu := pu.CycleOnce().CycleOnce().CycleOnce().CycleOnce().CycleOnce().CycleOnce()
+
+	got := lastPu.CountActive()
+	want := 112
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
 func TestCycleOnce(t *testing.T) {
 	pu := pocketUniverse{{
 		".#.",
@@ -54,39 +71,3 @@ func TestCountActiveNeighbors(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
-
-// func TestCalcNextCycleCube(t *testing.T) {
-// 	pu := pocketUniverse{{
-// 		".#.",
-// 		"..#",
-// 		"###",
-// 	}}
-
-// 	got := pu.calcNextCycleCube()
-// 	want := pocketUniverse{
-// 		{
-// 			".....",
-// 			".....",
-// 			".#...",
-// 			"...#.",
-// 			"..#..",
-// 		},
-// 		{
-// 			".....",
-// 			".....",
-// 			".#.#.",
-// 			"..##.",
-// 			"..#..",
-// 		},
-// 		{
-// 			".....",
-// 			".....",
-// 			".#...",
-// 			"...#.",
-// 			"..#..",
-// 		},
-// 	}
-// 	if !reflect.DeepEqual(got, want) {
-// 		t.Errorf("got %v want %v", got, want)
-// 	}
-// }
