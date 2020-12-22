@@ -97,7 +97,7 @@ aaaabbb`)
 }
 
 func TestIsValidExampleValid(t *testing.T) {
-	strRule := "a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b"
+	strRule := "^a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b$"
 	validRule := regexp.MustCompile(strRule)
 	message := Message("ababbb")
 
@@ -107,9 +107,19 @@ func TestIsValidExampleValid(t *testing.T) {
 }
 
 func TestIsValidExampleInvalid(t *testing.T) {
-	strRule := "a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b"
+	strRule := "^a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b$"
 	validRule := regexp.MustCompile(strRule)
 	message := Message("bababa")
+
+	if message.IsValid(validRule) {
+		t.Errorf("the message should be invalid: %v", message)
+	}
+}
+
+func TestIsValidExampleInvalid2(t *testing.T) {
+	strRule := "^a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b$"
+	validRule := regexp.MustCompile(strRule)
+	message := Message("aaaabbb")
 
 	if message.IsValid(validRule) {
 		t.Errorf("the message should be invalid: %v", message)
