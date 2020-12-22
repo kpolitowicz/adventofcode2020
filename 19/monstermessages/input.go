@@ -1,6 +1,7 @@
 package monstermessages
 
 import (
+	"regexp"
 	"strings"
 )
 
@@ -32,6 +33,10 @@ func (r Rules) resolveSequence(str string) (res string) {
 }
 
 type Message string
+
+func (m Message) IsValid(r *regexp.Regexp) bool {
+	return r.MatchString(string(m))
+}
 
 func ParseInput(input string) (Rules, []Message) {
 	rules := make(Rules)

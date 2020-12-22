@@ -2,6 +2,7 @@ package monstermessages
 
 import (
 	"reflect"
+	"regexp"
 	"testing"
 )
 
@@ -92,5 +93,25 @@ aaaabbb`)
 	}
 	if !reflect.DeepEqual(gotMsg, wantMsg) {
 		t.Errorf("got %v want %v", gotMsg, wantMsg)
+	}
+}
+
+func TestIsValidExampleValid(t *testing.T) {
+	strRule := "a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b"
+	validRule := regexp.MustCompile(strRule)
+	message := Message("ababbb")
+
+	if !message.IsValid(validRule) {
+		t.Errorf("the message should be valid: %v", message)
+	}
+}
+
+func TestIsValidExampleInvalid(t *testing.T) {
+	strRule := "a((aa|bb)(ab|ba)|(ab|ba)(aa|bb))b"
+	validRule := regexp.MustCompile(strRule)
+	message := Message("bababa")
+
+	if message.IsValid(validRule) {
+		t.Errorf("the message should be invalid: %v", message)
 	}
 }
