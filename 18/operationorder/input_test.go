@@ -1,12 +1,9 @@
 package operationorder
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 )
-
-var _ = fmt.Println
 
 func TestParseInput(t *testing.T) {
 	got := ParseInput(`1 + 2 * 3 + 4 * 5 + 6
