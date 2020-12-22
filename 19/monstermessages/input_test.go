@@ -175,8 +175,7 @@ aaaabbaabbaaaaaaabbbabbbaaabbaabaaa
 babaaabbbaaabaababbaabababaaab
 aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba`)
 	ruleStr := rules.ResolveRule("0")
-	validMsg := regexp.MustCompile("^" + ruleStr + "$")
-	got := ValidCount(messages, validMsg)
+	got := ValidCount(messages, ruleStr)
 	want := 3
 
 	if !reflect.DeepEqual(got, want) {

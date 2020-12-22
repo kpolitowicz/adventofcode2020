@@ -58,7 +58,8 @@ func ParseInput(input string) (Rules, []Message) {
 	return rules, messages
 }
 
-func ValidCount(messages []Message, validMsgRule *regexp.Regexp) (count int) {
+func ValidCount(messages []Message, validityRegexp string) (count int) {
+	validMsgRule := regexp.MustCompile("^" + validityRegexp + "$")
 	for _, msg := range messages {
 		if msg.IsValid(validMsgRule) {
 			count++

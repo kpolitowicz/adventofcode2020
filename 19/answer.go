@@ -14,11 +14,10 @@ func main() {
 	dat, _ := ioutil.ReadFile("input.txt")
 	rules, messages := monstermessages.ParseInput(strings.Trim(string(dat), "\n"))
 	ruleStr := rules.ResolveRule("0")
-	validMsg := regexp.MustCompile("^" + ruleStr + "$")
 
 	switch os.Args[1] {
 	case "1":
-		fmt.Println(monstermessages.ValidCount(messages, validMsg))
+		fmt.Println(monstermessages.ValidCount(messages, ruleStr))
 	case "2":
 		fmt.Println(rules["8"])
 		fmt.Println(rules["11"])
