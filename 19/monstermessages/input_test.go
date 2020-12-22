@@ -79,7 +79,7 @@ aaaabbb`)
 		"4": "\"a\"",
 		"5": "\"b\"",
 	}
-	wantMsg := Messages{
+	wantMsg := []Message{
 		"ababbb",
 		"bababa",
 		"abbbab",

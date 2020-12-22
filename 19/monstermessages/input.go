@@ -31,11 +31,11 @@ func (r Rules) resolveSequence(str string) (res string) {
 	return
 }
 
-type Messages []string
+type Message string
 
-func ParseInput(input string) (Rules, Messages) {
+func ParseInput(input string) (Rules, []Message) {
 	rules := make(Rules)
-	messages := Messages{}
+	messages := []Message{}
 	readMessages := false
 	for _, line := range strings.Split(input, "\n") {
 		if line == "" {
@@ -43,7 +43,7 @@ func ParseInput(input string) (Rules, Messages) {
 			continue
 		}
 		if readMessages {
-			messages = append(messages, line)
+			messages = append(messages, Message(line))
 		} else { // read rules
 			strSplit := strings.Split(line, ": ")
 			rules[strSplit[0]] = strSplit[1]
