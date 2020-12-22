@@ -18,13 +18,14 @@ func main() {
 
 	switch os.Args[1] {
 	case "1":
-		count := 0
-		for _, msg := range messages {
-			if msg.IsValid(validMsg) {
-				count++
-			}
-		}
-		fmt.Println(count)
+		fmt.Println(monstermessages.ValidCount(messages, validMsg))
 	case "2":
+		fmt.Println(rules["8"])
+		fmt.Println(rules["11"])
+		fmt.Println(rules.ResolveRule("42"))
+		fmt.Println(rules.ResolveRule("31"))
+
+		testRep := regexp.MustCompile("^(a(?1)?b)$")
+		fmt.Println(testRep.MatchString("aabb"))
 	}
 }

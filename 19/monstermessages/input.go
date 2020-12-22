@@ -57,3 +57,12 @@ func ParseInput(input string) (Rules, []Message) {
 
 	return rules, messages
 }
+
+func ValidCount(messages []Message, validMsgRule *regexp.Regexp) (count int) {
+	for _, msg := range messages {
+		if msg.IsValid(validMsgRule) {
+			count++
+		}
+	}
+	return
+}
