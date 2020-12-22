@@ -1,20 +1,28 @@
 package monstermessages
 
 import (
-	"sort"
-	"strconv"
 	"strings"
 )
 
-func ParseInput(input string) (res JoltageAdapters) {
-	res = JoltageAdapters{0}
+type Rules map[string]string
+type Messages []string
+
+func ParseInput(input string) (Rules, Messages) {
+	rules := make(Rules)
+	messages := Messages{}
+	readMessages := false
 	for _, line := range strings.Split(input, "\n") {
-		num, _ := strconv.Atoi(line)
-		res = append(res, num)
+		if line == "" {
+			readMessages = true
+			continue
+		}
+		if readMessages {
+			messages = append(messages, line)
+		} else { // read rules
+			strSplit := strings.Split(line, ": ")
+			rules[strSplit[0]] = strSplit[1]
+		}
 	}
 
-	sort.Ints(res)
-	res = append(res, res[len(res)-1]+3) //add device as +3
-
-	return
+	return rules, messages
 }

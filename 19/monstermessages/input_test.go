@@ -6,13 +6,38 @@ import (
 )
 
 func TestParseInput(t *testing.T) {
-	got := ParseInput(`35
-20
-15
-25`)
-	want := JoltageAdapters{0, 15, 20, 25, 35, 38}
+	gotRules, gotMsg := ParseInput(`0: 4 1 5
+1: 2 3 | 3 2
+2: 4 4 | 5 5
+3: 4 5 | 5 4
+4: "a"
+5: "b"
 
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("got %v want %v", got, want)
+ababbb
+bababa
+abbbab
+aaabbb
+aaaabbb`)
+	wantRules := Rules{
+		"0": "4 1 5",
+		"1": "2 3 | 3 2",
+		"2": "4 4 | 5 5",
+		"3": "4 5 | 5 4",
+		"4": "\"a\"",
+		"5": "\"b\"",
+	}
+	wantMsg := Messages{
+		"ababbb",
+		"bababa",
+		"abbbab",
+		"aaabbb",
+		"aaaabbb",
+	}
+
+	if !reflect.DeepEqual(gotRules, wantRules) {
+		t.Errorf("got %v want %v", gotRules, wantRules)
+	}
+	if !reflect.DeepEqual(gotMsg, wantMsg) {
+		t.Errorf("got %v want %v", gotMsg, wantMsg)
 	}
 }
