@@ -13,13 +13,16 @@ func main() {
 	dat, _ := ioutil.ReadFile("input.txt")
 	expressions := operationorder.ParseInput(strings.Trim(string(dat), "\n"))
 
+	var sum uint64 = 0
 	switch os.Args[1] {
 	case "1":
-		var sum uint64 = 0
 		for _, expr := range expressions {
 			sum += expr.Calculate()
 		}
-		fmt.Println(sum)
 	case "2":
+		for _, expr := range expressions {
+			sum += expr.AdvCalculate()
+		}
 	}
+	fmt.Println(sum)
 }
