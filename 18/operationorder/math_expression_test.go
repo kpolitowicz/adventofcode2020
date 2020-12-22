@@ -44,3 +44,33 @@ func TestCalculateParenEvenMoreComplex(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestAdvCalculateSimple(t *testing.T) {
+	expr := newExpression("1 + 2 * 3 + 4 * 5 + 6")
+	got := expr.AdvCalculate()
+	want := uint64(231)
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+func TestAdvCalculateParens(t *testing.T) {
+	expr := newExpression("2 * 3 + (4 * 5)")
+	got := expr.AdvCalculate()
+	want := uint64(46)
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+func TestAdvCalculateComplexParens(t *testing.T) {
+	expr := newExpression("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2")
+	got := expr.AdvCalculate()
+	want := uint64(23340)
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
