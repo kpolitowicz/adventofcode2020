@@ -20,12 +20,10 @@ func main() {
 		}
 		fmt.Println(pu.CountActive())
 	case "2":
-		// validTickets := tickettranslation.AllValidTickets(rules, nearbyTickets, myTicket)
-		// mapping := tickettranslation.TicketFieldsMapping(rules, validTickets)
-		// mult := 1
-		// for _, num := range myTicket.DepartureValues(mapping) {
-		// 	mult *= num
-		// }
-		// fmt.Println(mult)
+		hu := conwaycubes.NewHyperUniverse(pu)
+		for i := 0; i < 6; i++ {
+			hu = hu.CycleOnce()
+		}
+		fmt.Println(hu.CountActive())
 	}
 }

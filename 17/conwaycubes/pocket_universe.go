@@ -7,6 +7,10 @@ import (
 
 type hyperUniverse []pocketUniverse
 
+func NewHyperUniverse(pu pocketUniverse) hyperUniverse {
+	return hyperUniverse{pu}
+}
+
 func (hu hyperUniverse) CountActive() (count int) {
 	for w := 0; w < len(hu); w++ {
 		for z := 0; z < len(hu[0]); z++ {
