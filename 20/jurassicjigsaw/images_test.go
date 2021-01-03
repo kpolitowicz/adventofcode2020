@@ -5,6 +5,25 @@ import (
 	"testing"
 )
 
+func TestFindSigletons(t *testing.T) {
+	edgesToFind := &edges{
+		"###..###..": {{"2311", "B", true}},
+		".#####..#.": {{"2311", "L", false}, {"1951", "R", false}},
+		".#..#####.": {{"2311", "L", true}, {"1951", "R", true}},
+		"#.##...##.": {{"1951", "T", false}},
+		".##...##.#": {{"1951", "L", false}},
+	}
+	got := edgesToFind.FindSigletons()
+	want := &edges{
+		"2311": {{"2311", "B", true}},
+		"1951": {{"1951", "T", false}, {"1951", "L", false}},
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+
 func TestGetEdges(t *testing.T) {
 	images := &imageMap{
 		"2311": {

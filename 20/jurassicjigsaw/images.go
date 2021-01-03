@@ -10,6 +10,17 @@ type edgeDesc struct {
 	flipped     bool
 }
 
+func (ee *edges) FindSigletons() *edges {
+	res := make(edges)
+	for _, edgeList := range *ee {
+		if len(edgeList) == 1 {
+			edge := edgeList[0]
+			res[edge.title] = append(res[edge.title], edge)
+		}
+	}
+	return &res
+}
+
 func (im *imageMap) GetEdges() *edges {
 	res := make(edges)
 	for title, img := range *im {
