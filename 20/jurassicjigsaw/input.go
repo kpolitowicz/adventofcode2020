@@ -1,27 +1,8 @@
 package jurassicjigsaw
 
 import (
-	"fmt"
 	"strings"
 )
-
-type imageMap map[string]image
-type image []string
-
-func (im *imageMap) String() (res string) {
-	for title, img := range *im {
-		res += fmt.Sprintf("Tile %s:\n", title)
-		res += img.String()
-	}
-	return
-}
-
-func (i image) String() (res string) {
-	for _, line := range i {
-		res += fmt.Sprintf("%s\n", line)
-	}
-	return
-}
 
 func ParseInput(input string) *imageMap {
 	var imageLine int
