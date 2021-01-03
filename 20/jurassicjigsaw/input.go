@@ -1,69 +1,53 @@
 package jurassicjigsaw
 
 import (
-	"regexp"
+	"fmt"
 	"strings"
 )
 
-type Rules map[string]string
+type imageMap map[string]image
+type image []string
 
-func (r Rules) ResolveRule(rule string) (res string) {
-	ruleStr := r[rule]
-
-	switch {
-	case strings.ContainsRune(ruleStr, '"'):
-		res = string(ruleStr[1])
-	case strings.ContainsRune(ruleStr, '|'):
-		var resParts []string
-		for _, part := range strings.Split(ruleStr, " | ") {
-			resParts = append(resParts, r.resolveSequence(part))
-		}
-		res = "(" + strings.Join(resParts, "|") + ")"
-	default:
-		res = r.resolveSequence(ruleStr)
+func (im *imageMap) String() (res string) {
+	for title, img := range *im {
+		res += fmt.Sprintf("Tile %s:\n", title)
+		res += img.String()
 	}
 	return
 }
 
-func (r Rules) resolveSequence(str string) (res string) {
-	for _, rule := range strings.Split(str, " ") {
-		res += r.ResolveRule(rule)
+func (i image) String() (res string) {
+	for _, line := range i {
+		res += fmt.Sprintf("%s\n", line)
 	}
 	return
 }
 
-type Message string
+func ParseInput(input string) *imageMap {
+	var imageLine int
+	var imageNum string
+	var currentImage image
+	images := make(imageMap)
 
-func (m Message) IsValid(r *regexp.Regexp) bool {
-	return r.MatchString(string(m))
-}
-
-func ParseInput(input string) (Rules, []Message) {
-	rules := make(Rules)
-	messages := []Message{}
-	readMessages := false
 	for _, line := range strings.Split(input, "\n") {
+		imageLine++
 		if line == "" {
-			readMessages = true
+			images[imageNum] = currentImage
+			imageLine = 0
+			currentImage = image{}
 			continue
 		}
-		if readMessages {
-			messages = append(messages, Message(line))
-		} else { // read rules
-			strSplit := strings.Split(line, ": ")
-			rules[strSplit[0]] = strSplit[1]
+		if imageLine == 1 {
+			imageNum = parseImageNum(line)
+		} else {
+			currentImage = append(currentImage, line)
 		}
 	}
 
-	return rules, messages
+	images[imageNum] = currentImage
+	return &images
 }
 
-func ValidCount(messages []Message, validityRegexp string) (count int) {
-	validMsgRule := regexp.MustCompile("^" + validityRegexp + "$")
-	for _, msg := range messages {
-		if msg.IsValid(validMsgRule) {
-			count++
-		}
-	}
-	return
+func parseImageNum(line string) string {
+	return line[5:9]
 }
